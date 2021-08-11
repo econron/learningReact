@@ -1,28 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-const App = () => {
-  const profiles = [
-    { name: 1, age: '12'},
-    { name: 'aron', age: '23'}
-  ];
+const App = () => (<Counter />)
 
-  return (
-    profiles.map((profile) => {
-       return <div><User name={profile.name} age={profile.age} /></div>
-    })
-  );
+// componentを継承してないとエラーになるので注意する
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 'count': 0};
+  };
+
+  handlePlusButton = () => {
+    const currentCount = this.state.count;
+    this.setState({ 'count' : currentCount + 1 });
+  }
+
+  handleMinusButton = () => {
+    const currentCount = this.state.count;
+    this.setState({ 'count' : currentCount - 1 });
+  }
+
+  render() {
+    return (
+    // return するjsxは親が1つでなければならないという制約があるため、fragmentで囲む。
+    // handlePlusButtonに()をつけて呼び出すとエラーになった。
+    <React.Fragment>
+    <div>count number is　{this.state.count}</div>
+    <button onClick={this.handlePlusButton}>+1</button>
+    <button onClick={this.handleMinusButton}>-1</button>
+    </React.Fragment>
+    );
+  };
 }
 
-const User = (props) => {
-return <div>Hello! {props.name}. You are {props.age} years old, are you?</div>
-}
-
-// ここはコンソールでしか確認できない。
-// typescriptを導入するメリットはここにありそう。
-User.propTypes = {
-  name: PropTypes.string,
-  age: PropTypes.number
-}
 
 export default App;
