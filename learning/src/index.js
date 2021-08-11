@@ -1,20 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { creteStore } from 'redux';
-import { Provider } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import reducer from './reducers';
-import App from './components/App';
+import EventsIndex from './components/EventsIndex';
 import reportWebVitals from './reportWebVitals';
 
-const store = creteStore(reducer);
+// createStoreメソッドの第二引数としてthunkをapplyMiddlewareメソッドに渡してやることで
+// thunkを適用できる。
+const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   // 先ほどimportしたproviderでappコンポーネントを囲む。
   // providerのprops.storeに引数として、上記で実装したstoreを渡してやる
   // この実装により、コンポーネント全体でreactのstateを管理できるようになる（？）
   <Provider store={store}>
-    <App />
+    <EventsIndex />
   </Provider>,
   document.getElementById('root')
 );
