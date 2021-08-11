@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { creteStore } from 'redux';
+import { Provider } from 'redux';
+import reducer from './reducers';
+import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 
+const store = creteStore(reducer);
+
 ReactDOM.render(
-  <React.StrictMode>
+  // 先ほどimportしたproviderでappコンポーネントを囲む。
+  // providerのprops.storeに引数として、上記で実装したstoreを渡してやる
+  // この実装により、コンポーネント全体でreactのstateを管理できるようになる（？）
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
